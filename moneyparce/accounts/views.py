@@ -6,6 +6,9 @@ from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from .models import EmailVerificationCode
+import random
 
 @login_required
 def logout(request):
@@ -37,8 +40,22 @@ def login(request):
             return render(request, 'accounts/login.html',
                           {'template_data' : template_data})
         else:
-            auth_login(request, user)
-            return redirect('accounts.login')
+            # Generate 6-digit code
+            code = str(random.randint(100000, 999999))
+            EmailVerificationCode.objects.create(user=user, code=code)
+
+            # Send email
+            send_mail(
+                subject='Your Verification Code',
+                message=f'Your verification code is {code}',
+                from_email='no-reply@example.com',
+                recipient_list=[user.email],
+                fail_silently=False,
+            )
+
+            # Temporarily store user ID
+            request.session['pre_2fa_user_id'] = user.id
+            return redirect('accounts.verify_code')
 
 def signup(request):
     template_data = {}
@@ -59,6 +76,37 @@ def signup(request):
             template_data['form'] = form
             return render(request, 'accounts/signup.html', {'template_data': template_data})
 
+def verify_code(request):
+    template_data = {'title': 'Verify Code'}
+
+    user_id = request.session.get('pre_2fa_user_id')
+    if not user_id:
+        return redirect('accounts.login')
+
+    if request.method == 'GET':
+        return render(request, 'accounts/two_factor.html', {'template_data': template_data})
+
+    elif request.method == 'POST':
+        code_entered = request.POST.get('code')
+        print("Session user_id:", user_id)
+        print("Code entered:", code_entered)
+        try:
+            user = User.objects.get(id=user_id)
+            latest_code = EmailVerificationCode.objects.filter(user=user).latest('created_at')
+            print("Actual code:", latest_code.code)
+            print("Code expired?", latest_code.is_expired())
+            if latest_code.code == code_entered and not latest_code.is_expired():
+                auth_login(request, user)
+                del request.session['pre_2fa_user_id']  # cleanup
+                return redirect('home.index')
+            else:
+                template_data['error'] = 'Invalid or expired code.'
+        except Exception as e:
+            print("Error:", e)
+            template_data['error'] = 'Invalid verification attempt.'
+
+        return render(request, 'accounts/two_factor.html', {'template_data': template_data})
+    
 class CustomPasswordResetView(PasswordResetView):
     email_template_name = 'accounts/password_reset_email.html'
     success_url = reverse_lazy('password_reset_done')
