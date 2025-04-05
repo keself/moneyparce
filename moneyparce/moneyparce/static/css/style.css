@@ -40,15 +40,8 @@ body {
     color: #ffffff;
   }
   
-  p.about {
-    color: #ffffff
-  }
-  
-  
-  p.title {
-    text-align: center;
-    font-size: 1.2rem;
-    color: #ffffff;
+  .signUpText p {
+    color: #000000;
   }
   
   /* Navigation */
