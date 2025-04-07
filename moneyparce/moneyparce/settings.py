@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'home',
     'accounts',
     'transactions',
+    'budgets',
 ]
 
 MIDDLEWARE = [

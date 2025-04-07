@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Budgets</h2>
+  <a href="{% url 'create_budget' %}">+ Add Budget</a>
+  <ul>
+    {% for budget in budgets %}
+      <li>
+        <strong>{{ budget.name }}</strong>: ${{ budget.amount }} ({{ budget.category }})
+        <a href="{% url 'edit_budget' budget.id %}">Edit</a>
+        <a href="{% url 'delete_budget' budget.id %}">Delete</a>
+      </li>
+    {% empty %}
+      <li>No budgets found.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
