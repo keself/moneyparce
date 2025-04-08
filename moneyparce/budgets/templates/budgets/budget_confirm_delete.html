@@ -9,11 +9,17 @@
         <br>
         <br>
         <p>Are you sure you want to delete "{{ budget.name }}"?</p>
+        <br>
         <form method="post">
           {% csrf_token %}
-          <button type="submit">Confirm Delete</button>
+          <button class="button-26" type="submit">Confirm Delete</button>
         </form>
-        <a href="{% url 'budget_list' %}">Cancel</a>
+        <br>
+        <a href="{% url 'budget_list' %}">
+          <button class="button-26" role="button">
+            Cancel
+          </button>
+        </a>
       </div>
     </div>
   </div>

@@ -8,14 +8,26 @@
         <h2>Budgets</h2>
         <br>
         <br>
-        <a href="{% url 'create_budget' %}">+ Add Budget</a>
+        <a href="{% url 'create_budget' %}">
+          <button class="button-26" role="button">
+            + Add Budget
+          </button>
+        </a>
         <ul>
           <br>
           {% for budget in budgets %}
             <li>
               <strong>{{ budget.name }}</strong>: ${{ budget.amount }} ({{ budget.category }})
-              <a href="{% url 'edit_budget' budget.id %}">Edit</a>
-              <a href="{% url 'delete_budget' budget.id %}">Delete</a>
+              <a href="{% url 'edit_budget' budget.id %}" >
+                <button class="button-26" role="button">
+                  Edit
+                </button>
+              </a>
+              <a href="{% url 'delete_budget' budget.id %}">
+                <button class="button-26" role="button">
+                  Delete
+                </button>
+              </a>
             </li>
           {% empty %}
             <li>No budgets found.</li>

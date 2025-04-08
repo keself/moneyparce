@@ -12,7 +12,11 @@
           {{ form.as_p }}
           <button type="submit">{{ action }}</button>
         </form>
-        <a href="{% url 'budget_list' %}">Back to list</a>
+        <a href="{% url 'budget_list' %}">
+          <button>
+            Back to list
+          </button>
+        </a>
       </div>
     </div>
   </div>
