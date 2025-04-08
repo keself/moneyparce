@@ -1,11 +1,21 @@
 {% extends 'base.html' %}
-
 {% block content %}
-  <h2>Delete Budget</h2>
-  <p>Are you sure you want to delete "{{ budget.name }}"?</p>
-  <form method="post">
-    {% csrf_token %}
-    <button type="submit">Confirm Delete</button>
-  </form>
-  <a href="{% url 'budget_list' %}">Cancel</a>
+<div class="p-3">
+  <div class="container">
+    <div class="row mt-3">
+      <div class="col-md-6 mx-auto mb-3">
+        <br>
+        <h2>Delete Budget</h2>
+        <br>
+        <br>
+        <p>Are you sure you want to delete "{{ budget.name }}"?</p>
+        <form method="post">
+          {% csrf_token %}
+          <button type="submit">Confirm Delete</button>
+        </form>
+        <a href="{% url 'budget_list' %}">Cancel</a>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

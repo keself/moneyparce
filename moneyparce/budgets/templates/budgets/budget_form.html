@@ -1,11 +1,20 @@
 {% extends 'base.html' %}
-
 {% block content %}
-  <h2>{{ action }} Budget</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">{{ action }}</button>
-  </form>
-  <a href="{% url 'budget_list' %}">Back to list</a>
+<div class="p-3">
+  <div class="container">
+    <div class="row mt-3">
+      <div class="col-md-6 mx-auto mb-3">
+        <br>
+        <h2>{{ action }} Budget</h2>
+        <form method="post">
+          <br>
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit">{{ action }}</button>
+        </form>
+        <a href="{% url 'budget_list' %}">Back to list</a>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
