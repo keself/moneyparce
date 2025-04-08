@@ -10,10 +10,11 @@
           <br>
           {% csrf_token %}
           {{ form.as_p }}
-          <button type="submit">{{ action }}</button>
+          <button class="button-26" type="submit">{{ action }}</button>
         </form>
+        <br>
         <a href="{% url 'budget_list' %}">
-          <button>
+          <button class="button-26" role="button">
             Back to list
           </button>
         </a>
