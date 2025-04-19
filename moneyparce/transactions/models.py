@@ -15,6 +15,7 @@ class Transaction(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     # either add or remove choices
     action = models.CharField(max_length=6, choices=ACTION_CHOICES)
+    category = models.CharField(max_length=50, default='Uncategorized')
     # time of transaction
     timestamp = models.DateTimeField(auto_now_add=True)
 
