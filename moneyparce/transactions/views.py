@@ -25,26 +25,29 @@ def transactions(request):
             if action == 'remove':
                 today = timezone.now().date()
 
-                budget = Budget.objects.filter(
+                total_budget = Budget.objects.filter(
                     category=category,
                     start_date__lte=today,
                     end_date__gte=today
-                ).first()
+                ).aggregate(total=Sum('amount'))['total'] or 0
 
-                if budget:
-                    total_spent = Transaction.objects.filter(
-                        user=request.user,
-                        category=category,
-                        action='remove'
-                    ).aggregate(total=Sum('amount'))['total'] or 0
+                # Sum up all transactions for this category by the user
+                total_spent = Transaction.objects.filter(
+                    user=request.user,
+                    category=category,
+                    action='remove'
+                ).aggregate(total=Sum('amount'))['total'] or 0
 
-                    percent_used = (total_spent / budget.amount) * 100
+                # Calculate the percent of budget used, avoiding division by zero
+                percent_used = (total_spent / total_budget) * 100 if total_budget > 0 else 0
 
+                if total_budget > 0:
                     if percent_used >= 100:
-                        messages.error(request, f"You've exceeded your budget for {category}! (Limit: ${budget.amount}, Spent: ${total_spent})")
+                        messages.error(request, f"You've exceeded your budget for {category}! (Limit: ${total_budget}, Spent: ${total_spent})")
                     elif percent_used >= 90:
-                        messages.warning(request, f"You're approaching your budget limit for {category}. (Limit: ${budget.amount}, Spent: ${total_spent})")
+                        messages.warning(request, f"You're approaching your budget limit for {category}. (Limit: ${total_budget}, Spent: ${total_spent})")
 
+            messages.success(request, f"Transaction successful for {category}.")
             return redirect('transactions')
 
     else:
