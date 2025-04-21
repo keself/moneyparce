@@ -16,10 +16,11 @@ def transactions(request):
         form = TransactionForm(request.POST)
         if form.is_valid():  # checks if all fields were filled out
             amount = form.cleaned_data['amount']
+            timestamp = form.cleaned_data['date']
             action = form.cleaned_data['action']
             category = form.cleaned_data['category']
 
-            transaction = Transaction(user=request.user, amount=amount, action=action, category=category)
+            transaction = Transaction(user=request.user, amount=amount, action=action, timestamp=timestamp)
             transaction.save()
 
             if action == 'remove' or action == 'add':

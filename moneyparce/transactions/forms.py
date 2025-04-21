@@ -9,3 +9,4 @@ class TransactionForm(forms.ModelForm):
     class Meta:
         model = Transaction
         fields = ['amount', 'action', 'category']
+        timestamp = forms.DateInput(attrs={'type': 'date'})
