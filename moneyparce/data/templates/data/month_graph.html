@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+  {{ graph_data|json_script:"graph-data" }}
+
+  <script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      var rawData = JSON.parse(document.getElementById('graph-data').textContent);
+      alert(rawData);
+      //rawData = [["Date", "Actual Balance", "Projected Balance", "Total Budget"], ["2025-04-01", 0.0, 0.0, 1500.0], ["2025-04-02", 0.0, 0.0, 1500.0], ["2025-04-03", 0.0, 0.0, 1500.0], ["2025-04-04", 0.0, 0.0, 1500.0], ["2025-04-05", 0.0, 0.0, 1500.0], ["2025-04-06", 0.0, 0.0, 1500.0], ["2025-04-07", 0.0, 0.0, 1500.0], ["2025-04-08", 1500.0, 1500.0, 1500.0], ["2025-04-09", 1500.0, 1500.0, 1500.0], ["2025-04-10", 1500.0, 1500.0, 1500.0], ["2025-04-11", 1500.0, 1500.0, 1500.0], ["2025-04-12", 1500.0, 1500.0, 1500.0], ["2025-04-13", 1500.0, 1500.0, 1500.0], ["2025-04-14", 1500.0, 1500.0, 1500.0], ["2025-04-15", 1500.0, 1500.0, 1500.0], ["2025-04-16", 1500.0, 1500.0, 1500.0], ["2025-04-17", 1500.0, 1500.0, 1500.0], ["2025-04-18", 1500.0, 1500.0, 1500.0], ["2025-04-19", 1500.0, 1500.0, 1500.0], ["2025-04-20", 1500.0, 1500.0, 1500.0], ["2025-04-21", 1500.0, 1500.0, 1500.0], ["2025-04-22", 1500.0, 1500.0, 1500.0], ["2025-04-23", 1500.0, 1500.0, 1500.0], ["2025-04-24", 1500.0, 1500.0, 1500.0], ["2025-04-25", 1500.0, 1500.0, 1500.0], ["2025-04-26", 1500.0, 1500.0, 1500.0], ["2025-04-27", 1500.0, 1500.0, 1500.0], ["2025-04-28", 1500.0, 1500.0, 1500.0], ["2025-04-29", 1500.0, 1500.0, 1500.0], ["2025-04-30", 1500.0, 1500.0, 1500.0]]
+      var data = google.visualization.arrayToDataTable(rawData);
+
+      var options = {
+        title: 'Balance History & Projection',
+        legend: { position: 'bottom' },
+        hAxis: { title: 'Date' },
+        vAxis: { title: 'Balance' }
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+      chart.draw(data, options);
+    }
+  </script>
+  <div id="curve_chart" style="width: 900px; height: 500px"></div>
+{% endblock content %}

@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.models import User
 from .models import Budget
 from .forms import BudgetForm
 
@@ -6,7 +7,9 @@ def create_budget(request):
     if request.method == 'POST':
         form = BudgetForm(request.POST)
         if form.is_valid():
-            form.save()
+            budget = form.save(commit=False)
+            budget.user = request.user
+            budget.save()
             return redirect('budget_list')
     else:
         form = BudgetForm()
