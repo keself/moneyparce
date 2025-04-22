@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,4 +25,5 @@ urlpatterns = [
     path('transactions/', include('transactions.urls')),
     path('budgets/', include('budgets.urls')),
     path('data/', include('data.urls')),
+    path('download/', views.download_data, name='download_data'),
 ]
