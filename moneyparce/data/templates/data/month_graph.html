@@ -6,14 +6,45 @@
   {{ graph_data|json_script:"graph-data" }}
 
   <script type="text/javascript">
-    google.charts.load('current', {'packages':['corechart']});
+    google.charts.load('current', { 'packages': ['corechart'] });
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
       var rawData = JSON.parse(document.getElementById('graph-data').textContent);
-      alert(rawData);
-      //rawData = [["Date", "Actual Balance", "Projected Balance", "Total Budget"], ["2025-04-01", 0.0, 0.0, 1500.0], ["2025-04-02", 0.0, 0.0, 1500.0], ["2025-04-03", 0.0, 0.0, 1500.0], ["2025-04-04", 0.0, 0.0, 1500.0], ["2025-04-05", 0.0, 0.0, 1500.0], ["2025-04-06", 0.0, 0.0, 1500.0], ["2025-04-07", 0.0, 0.0, 1500.0], ["2025-04-08", 1500.0, 1500.0, 1500.0], ["2025-04-09", 1500.0, 1500.0, 1500.0], ["2025-04-10", 1500.0, 1500.0, 1500.0], ["2025-04-11", 1500.0, 1500.0, 1500.0], ["2025-04-12", 1500.0, 1500.0, 1500.0], ["2025-04-13", 1500.0, 1500.0, 1500.0], ["2025-04-14", 1500.0, 1500.0, 1500.0], ["2025-04-15", 1500.0, 1500.0, 1500.0], ["2025-04-16", 1500.0, 1500.0, 1500.0], ["2025-04-17", 1500.0, 1500.0, 1500.0], ["2025-04-18", 1500.0, 1500.0, 1500.0], ["2025-04-19", 1500.0, 1500.0, 1500.0], ["2025-04-20", 1500.0, 1500.0, 1500.0], ["2025-04-21", 1500.0, 1500.0, 1500.0], ["2025-04-22", 1500.0, 1500.0, 1500.0], ["2025-04-23", 1500.0, 1500.0, 1500.0], ["2025-04-24", 1500.0, 1500.0, 1500.0], ["2025-04-25", 1500.0, 1500.0, 1500.0], ["2025-04-26", 1500.0, 1500.0, 1500.0], ["2025-04-27", 1500.0, 1500.0, 1500.0], ["2025-04-28", 1500.0, 1500.0, 1500.0], ["2025-04-29", 1500.0, 1500.0, 1500.0], ["2025-04-30", 1500.0, 1500.0, 1500.0]]
-      var data = google.visualization.arrayToDataTable(rawData);
+      
+      // Create a DataTable with explicit column types.
+      var data = new google.visualization.DataTable();
+      // Define columns: first is a date, then three number columns.
+      data.addColumn('date', 'Date');
+      data.addColumn('number', 'Actual Balance');
+      data.addColumn('number', 'Projected Balance');
+      data.addColumn('number', 'Total Budget');
+
+      // Start from index 1 because index 0 is the header row.
+      for (var i = 1; i < rawData.length; i++) {
+        // Convert the date string (e.g., "2025-04-01") into a JavaScript Date object.
+        var dateStr = rawData[i][0];  
+        var parts = dateStr.split('-');
+        var dateObj = new Date(
+          parseInt(parts[0]),
+          parseInt(parts[1]) - 1, // JavaScript months are 0-indexed.
+          parseInt(parts[2])
+        );
+
+        // For the numeric columns, ensure that null remains null or convert to a number.
+        var actual = rawData[i][1] !== null ? Number(rawData[i][1]) : null;
+        var projected = rawData[i][2] !== null ? Number(rawData[i][2]) : null;
+        var budget = rawData[i][3] !== null ? Number(rawData[i][3]) : null;
+        
+        data.addRow([dateObj, actual, projected, budget]);
+      }
+      
+      // Rearrange the drawing order. The idea is to have Actual Balance drawn last.
+      // Original order: [Date, Actual Balance, Projected Balance, Total Budget]
+      // We want Actual Balance to overlay on top, so we reorder as:
+      // [Date, Total Budget, Projected Balance, Actual Balance]
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 3, 2, 1]);
 
       var options = {
         title: 'Balance History & Projection',
@@ -23,8 +54,9 @@
       };
 
       var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-      chart.draw(data, options);
+      chart.draw(view, options);
     }
   </script>
+
   <div id="curve_chart" style="width: 900px; height: 500px"></div>
 {% endblock content %}

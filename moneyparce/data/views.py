@@ -3,7 +3,6 @@ from datetime import date, timedelta
 from transactions.models import Transaction
 from budgets.models import Budget
 import calendar
-import json
 
 def index(request):
     curr_user = request.user
@@ -17,20 +16,23 @@ def index(request):
     daily_data = {}
     cumulative_balance = 0
     num_days = (end_date - start_date).days + 1
+
+    # Build daily data for every day of the month
     for i in range(num_days):
         day = start_date + timedelta(days=i)
-
         day_transactions = past_transactions.filter(timestamp__date=day)
         day_sum = sum(
             t.amount if t.action == 'add' else -t.amount 
             for t in day_transactions
         )
         cumulative_balance += day_sum
+        # For days in the future, we'll initially set both values to today's cumulative_balance
         daily_data[day] = {
             'actual': cumulative_balance,
             'projected': cumulative_balance
         }
 
+    # Then update projected balance for days after today based on planned transactions.
     projected_balance = daily_data[today]['actual'] if today in daily_data else 0
     for i in range(1, (end_date - today).days + 1):
         day = today + timedelta(days=i)
@@ -52,12 +54,14 @@ def index(request):
     graph_rows = []
     graph_rows.append(['Date', 'Actual Balance', 'Projected Balance', 'Total Budget'])
     
+    # For each day, only include the actual balance until today.
     for day in sorted(daily_data.keys()):
-        actual = daily_data[day]['actual']
+        # Only show actual balance up to and including today
+        actual = daily_data[day]['actual'] if day <= today else None
         projected = daily_data[day]['projected']
         graph_rows.append([
             day.strftime("%Y-%m-%d"),
-            float(actual),
+            actual,  # Python None becomes null in JSON
             float(projected),
             budget_value
         ])
