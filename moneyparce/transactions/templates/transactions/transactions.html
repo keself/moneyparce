@@ -7,11 +7,18 @@
             <br>
             <h2>Transactions</h2>
             {% if messages %}
-              <ul class="messages">
+              <div class="mb-3">
                 {% for message in messages %}
-                    <li class="{{ message.tags }}">{{ message }}</li>
+                  <div class="alert 
+                      {% if message.tags == 'error' %}alert-danger
+                      {% elif message.tags == 'success' %}alert-success
+                      {% elif message.tags == 'warning' %}alert-warning
+                      {% elif message.tags == 'info' %}alert-info
+                      {% endif %}">
+                    {{ message }}
+                  </div>
                 {% endfor %}
-              </ul>
+              </div>
             {% endif %}
            {% if user_transactions %}
                 <ul>
