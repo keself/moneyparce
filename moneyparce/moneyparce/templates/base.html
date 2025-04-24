@@ -28,7 +28,6 @@
             {% if user.is_authenticated %}
             <a class="nav-link" href="{% url 'transactions' %}">Transactions</a>
             <a class="nav-link" href="{% url 'budget_list' %}">Budgets</a>
-            <a class="nav-link" href="{% url 'data.index' %}">Graph</a>
             <a class="nav-link" href="{% url 'download_data' %}">Download</a>
             <a class="nav-link"
               href="{% url 'accounts.logout' %}">Logout ({{user.username }})</a>
@@ -36,7 +35,9 @@
             <a class="nav-link"
               href="{% url 'accounts.login' %}">Login</a>  
             <a class="nav-link"
-              href="{% url 'accounts.signup' %}">Sign Up</a>
+              href="{% url 'accounts.signup' %}">
+              Sign Up
+            </a>
             {% endif %}
           </div>
         </div>
@@ -60,5 +61,31 @@
     <section class="p-3 ms-footer-bottom bg-dark text-center text-white">
       <span>© 2025 MoneyParce | Designed by <a href="https://www.linkedin.com/in/jiwon-ahn-a4a31b247/" target="_blank">Jiwon Ahn</a> , <a href="https://www.linkedin.com/in/kylie-self-315200290/" target="_blank">Kylie Self</a> , <a href="https://www.linkedin.com/in/dylan-paige-b95b6132b" target="_blank">Dylan Paige</a>, <a href="https://www.linkedin.com/in/cade-wooten-42a609322?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank">Cade Wooten </a> & <a href="https://www.linkedin.com/in/coopergrant1/" target="_blank">Cooper Grant </a></span>
     </section>
+
+    <!-- chatbot -->
+    <link rel="stylesheet" href="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/themes/df-messenger-default.css">
+    <script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
+    <df-messenger
+      project-id="moneyparce"
+      agent-id="01fedda0-a4f3-4f82-8680-ac18a2b63fcd"
+      language-code="en"
+      max-query-length="-1">
+      <df-messenger-chat-bubble
+        chat-title="moneyparce-agent">
+      </df-messenger-chat-bubble>
+    </df-messenger>
+    <style>
+      df-messenger {
+        z-index: 999;
+        position: fixed;
+        --df-messenger-font-color: #000;
+        --df-messenger-font-family: Google Sans;
+        --df-messenger-chat-background: #f3f6fc;
+        --df-messenger-message-user-background: #d3e3fd;
+        --df-messenger-message-bot-background: #fff;
+        bottom: 16px;
+        right: 16px;
+      }
+    </style>
   </body>
 </html>
