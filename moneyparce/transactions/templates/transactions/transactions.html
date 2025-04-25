@@ -23,7 +23,7 @@
               </div>
             {% endif %}
            {% if user_transactions %}
-              <div class="card bg-dark text-white shadow-sm mb-4">
+              <div class="card bg-dark border-light shadow text-white mb-4">
                 <div class="card-body">
                   <h5 class="card-title">Your Transaction History</h5>
                   <ul class="list-group list-group-flush text-white">
@@ -38,7 +38,7 @@
             {% endif %}
             <h4>Total Balance: ${{ total_balance }}</h4>
             <br>
-            <div class="card bg-dark text-white shadow-sm">
+            <div class="card bg-dark text-white border-light shadow">
               <div class="card-body">
                 <h5 class="card-title">Make a Transaction</h5>
                 <form method="POST">
