@@ -1,22 +1,59 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
-<header class="masthead bg-index text-white text-center py-4">
-  <div class="container d-flex align-items-center flex-column pt-2">
-    <h2>MoneyParce</h2>
-    <br>
-    <p>Your own personal finance organizer!</p>
-    <br>
-    <div class="col-md-6 mx-auto mb-3 text-center">
-      <img src="{% static 'img/finances.webp' %}" style="max-height:400px;height:100%" class="home-img img-fluid rounded" alt="About Movies Store" />
+<header class="masthead bg-index text-white text-center py-5">
+  <div class="container d-flex flex-column align-items-center">
+    <h2 class="mb-3">MoneyParce</h2>
+    <p class="lead fs-4">Your personal finance organizer made simple.</p>
+    <div class="col-md-8 col-lg-6 my-4">
+      <img src="{% static 'img/finances.webp' %}" class="img-fluid home-img" alt="Personal Finance Illustration">
     </div>
+    <a href="{% url 'accounts.signup' %}">
+      <button class="button-26 mt-3" role="button">
+        Get Started!
+      </button>
+    </a>
   </div>
 </header>
-<div class="p-3">
+
+<section class="bg-dark text-white py-5">
+  <div class="container text-center">
+    <h3 class="mb-4">All-in-One Budget Management</h3>
+    <p class="fs-5">Track spending, set budgets, and download reports in one powerful, easy-to-use platform. Whether you're a student, professional, or family planner—MoneyParce makes budgeting a breeze.</p>
+  </div>
+</section>
+
+<section class="bg-index bg-light text-dark py-5">
   <div class="container">
-    <div class="col mx-auto text-center mb-3">
-      <h4>Welcome to the best finance organizer!!</h4>
+    <div class="row g-4 text-center">
+      <div class="col-md-4">
+        <div class="card bg-white shadow h-100 border-0">
+          <div class="card-body">
+            <i class="fas fa-coins fa-2x text-primary mb-3"></i>
+            <h5 class="card-title">Track Every Transaction</h5>
+            <p class="card-text" style="color:cornflowerblue">Automatically categorize and view your spending habits with easy charts and insights.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card bg-white shadow h-100 border-0">
+          <div class="card-body">
+            <i class="fas fa-chart-line fa-2x text-success mb-3"></i>
+            <h5 class="card-title">Smart Budgeting</h5>
+            <p class="card-text" style="color:cornflowerblue">Set goals, create monthly budgets, and receive alerts when you're nearing your limits.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card bg-white shadow h-100 border-0">
+          <div class="card-body">
+            <i class="fas fa-download fa-2x text-warning mb-3"></i>
+            <h5 class="card-title">Download Reports</h5>
+            <p class="card-text" style="color:cornflowerblue">Export your financial data for tax season or deeper analysis with just one click.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</div>
+</section>
 {% endblock content %}

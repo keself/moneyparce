@@ -5,21 +5,19 @@
     <div class="row mt-3">
       <div class="col-md-6 mx-auto mb-3">
         <br>
-        <h2>Delete Budget</h2>
-        <br>
-        <br>
-        <p>Are you sure you want to delete "{{ budget.name }}"?</p>
-        <br>
-        <form method="post">
-          {% csrf_token %}
-          <button class="button-26" type="submit">Confirm Delete</button>
-        </form>
-        <br>
-        <a href="{% url 'budget_list' %}">
-          <button class="button-26" role="button">
-            Cancel
-          </button>
-        </a>
+        <div class="card shadow-lg p-4 bg-dark text-white border-danger rounded-4">
+          <h2>Delete Budget</h2>
+          <br>
+          <p>Are you sure you want to delete <strong>"{{ budget.name }}"</strong>?</p>
+          <br>
+          <form method="post">
+            {% csrf_token %}
+            <div class="d-grid gap-2 col-6 mx-auto">
+              <button class="btn btn-danger fw-bold" type="submit">Confirm Delete</button>
+              <a href="{% url 'budget_list' %}" class="btn btn-outline-light">Cancel</a>
+            </div>
+          </a>
+        </div>
       </div>
     </div>
   </div>

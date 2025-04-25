@@ -9,30 +9,30 @@
         <br>
         <br>
         <a href="{% url 'create_budget' %}">
-          <button class="button-26" role="button">
+          <button class="btn btn-warning text-dark fw-semibold">
             + Add Budget
           </button>
         </a>
-        <ul>
-          <br>
-          {% for budget in budgets %}
-            <li>
-              <strong>{{ budget.name }}</strong>: ${{ budget.amount }} ({{ budget.category }})
-              <a href="{% url 'edit_budget' budget.id %}" >
-                <button class="button-26" role="button">
-                  Edit
-                </button>
-              </a>
-              <a href="{% url 'delete_budget' budget.id %}">
-                <button class="button-26" role="button">
-                  Delete
-                </button>
-              </a>
-            </li>
-          {% empty %}
-            <li>No budgets found.</li>
-          {% endfor %}
-        </ul>
+        <br>
+        <br>
+        {% if budgets %}
+          <div class="list-group shadow">
+            {% for budget in budgets %}
+              <div class="list-group-item bg-dark text-white d-flex justify-content-between align-items-center border-secondary rounded-2 mb-2">
+                <div>
+                  <h5 class="mb-1">{{ budget.name }}</h5>
+                  <small>${{ budget.amount }} &middot; {{ budget.category }}</small>
+                </div>
+                <div class="d-flex gap-2">
+                  <a href="{% url 'edit_budget' budget.id %}" class="btn btn-outline-light btn-sm">Edit</a>
+                  <a href="{% url 'delete_budget' budget.id %}" class="btn btn-outline-danger btn-sm">Delete</a>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="text-center text-muted mt-4">No budgets found.</p>
+        {% endif %}
       </div>
     </div>
   </div>

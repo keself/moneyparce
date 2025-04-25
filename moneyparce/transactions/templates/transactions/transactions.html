@@ -6,6 +6,8 @@
         <div class="col-md-6 mx-auto mb-3">
             <br>
             <h2>Transactions</h2>
+            <br>
+            <br>
             {% if messages %}
               <div class="mb-3">
                 {% for message in messages %}
@@ -21,24 +23,33 @@
               </div>
             {% endif %}
            {% if user_transactions %}
-                <ul>
-                    <br>
+              <div class="card bg-dark text-white shadow-sm mb-4">
+                <div class="card-body">
+                  <h5 class="card-title">Your Transaction History</h5>
+                  <ul class="list-group list-group-flush text-white">
                     {% for transaction in user_transactions %}
-                    <li>{{ transaction.action|title }}: ${{ transaction.amount }} ({{ transaction.timestamp }})</li>
+                    <li class="list-group-item bg-transparent border-bottom text-white">
+                      <strong>{{ transaction.action|title }}</strong>: ${{ transaction.amount }} <small>({{ transaction.timestamp }})</small>
+                    </li>
                     {% endfor %}
-                </ul>
+                  </ul>
+                </div>
+              </div>
             {% endif %}
             <h4>Total Balance: ${{ total_balance }}</h4>
             <br>
-            <br>
-            <h2>Make a Transaction</h2>
-            <form method="POST">
-                <br>
-                {% csrf_token %}
-                {{ form.as_p }}
-                <br>
-                <button class="button-26" type="submit">Submit</button>
-            </form>
+            <div class="card bg-dark text-white shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title">Make a Transaction</h5>
+                <form method="POST">
+                  {% csrf_token %}
+                  <div class="mb-3">
+                    {{ form.as_p }}
+                  </div>
+                  <button class="button-26" type="submit">Submit</button>
+                </form>
+              </div>
+            </div>
         </div>
     </div>
 </div>
