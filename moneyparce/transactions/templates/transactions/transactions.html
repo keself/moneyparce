@@ -18,6 +18,19 @@
                       {% elif message.tags == 'info' %}alert-info
                       {% endif %}">
                     {{ message }}
+                    {% if message.tags == 'error' %}
+                    <span data-bs-toggle="tooltip" title="Tip: You've gone over your budget. Don't stress! Look at where you overspent and make a plan to not spend anymore.">
+                      <i class="bi bi-info-circle-fill" style="color: rgb(0, 0, 70); font-size: 20px;"></i>
+                    </span>                    
+                   {% elif message.tags == 'warning' %}
+                   <span data-bs-toggle="tooltip" title="Tip: You're getting close to your budget! Check your recent spendings and see where you can hold off on non-essential purchases.">
+                    <i class="bi bi-info-circle-fill" style="color: rgb(0, 0, 70); font-size: 20px;"></i>
+                  </span> 
+                  {% elif message.tags == 'info' %}
+                      <span data-bs-toggle="tooltip" title="Tip: You've met your budget! Great job staying on track. Make sure not to make any unnecessary purchases!">
+                        <i class="bi bi-info-circle-fill" style="color: rgb(0, 0, 70); font-size: 20px;"></i>
+                      </span>
+                  {% endif %}
                   </div>
                 {% endfor %}
               </div>
