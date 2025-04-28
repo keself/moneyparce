@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from .models import EmailVerificationCode
+from django.conf import settings
 import random
 
 @login_required
@@ -48,8 +49,8 @@ def login(request):
             send_mail(
                 subject='Your Verification Code',
                 message=f'Your verification code is {code}',
-                from_email='no-reply@example.com',
-                recipient_list=[user.email],
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=["elicadewoo1215@gmail.com"],
                 fail_silently=False,
             )
 
