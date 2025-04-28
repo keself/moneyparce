@@ -50,7 +50,7 @@ def login(request):
                 subject='Your Verification Code',
                 message=f'Your verification code is {code}',
                 from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=["elicadewoo1215@gmail.com"],
+                recipient_list=[user.email],
                 fail_silently=False,
             )
 
